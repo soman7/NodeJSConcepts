@@ -1,0 +1,11 @@
+{
+  "name": "nodejsconcepts",
+  "version": "1.0.0",
+  "description": "This repository contains code NodeJS code snippets using ExpressJS as a framework.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
