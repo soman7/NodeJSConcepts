@@ -1,24 +1,31 @@
 const fs = require('fs');
+const http = require('http');
 
-const readableStream = fs.createReadStream('input.txt');
-const writableStream = fs.createWriteStream('output.txt');
+const server = http.createServer();
 
-readableStream.on('data', (chunk) => {
-  writableStream.write(chunk);
-});
+server.on('request', (req,res) => {
+    //Old Way
+    // fs.readFile('input.txt', (err, data) => {
+    //     if(err) return console.error(err);
+    //     res.end(data.toString());
+    // })
 
-readableStream.on('end', () => {
-  writableStream.end();
-});
+    //New Way using Streams
+    const rStream = fs.createReadStream('input.txt');
 
-writableStream.on('finish', () => {
-  console.log('Data has been copied successfully.');
-});
+    rStream.on('data', (chunkData) => {
+        res.write(chunkData)
+    });
 
-readableStream.on('error', (err) => {
-  console.error('Error reading the file:', err);
-});
+    rStream.on('end', () => {
+        res.end();
+    })
 
-writableStream.on('error', (err) => {
-  console.error('Error writing to the file:', err);
-});
+    rStream.on('error', (err) => {
+        console.log(err);
+        res.end("File not Found!")
+    })
+
+})
+
+server.listen(8000, "127.0.0.1")
